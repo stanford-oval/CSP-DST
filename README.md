@@ -31,23 +31,28 @@ pip3 uninstall -y genienlp
 pip3 install git+https://github.com/stanford-oval/genienlp.git@wip/csp-dst
 ```
 
-3. We use Convlab-2 library to access datasets (besides multiwoz 2.4) and ontology files:
+3. We use Convlab-2 library to access datasets (besides MultiWOZ 2.4 and RiSAWOZ) and ontology files:
 ```bash
 git clone https://github.com/thu-coai/ConvLab-2.git
 ```
 You may need to unzip data files provided in Convlab-2. For some datasets (e.g. CrossWOZ) you need to run a script included in the library to generate ontology files.
 
-4. To access MultiWOZ 2.4 dataset, run the following:
+4. To access MultiWOZ 2.4 dataset, run:
 ```bash
 git clone https://github.com/smartyfh/MultiWOZ2.4.git
 cd MultiWOZ2.4 ; python3 create_data.py
+```
+
+5. To access RiSAWOZ, run the following command and unzip the data files within:
+```bash
+git clone https://github.com/terryqj0107/RiSAWOZ.git
 ```
 
 ### Translation
 Make sure you run the following commands within CSP-DST library root directory.
 1. Process and prepare the dataset into our contextual format for training/ translation (We choose RiSAWOZ as the example dataset in this guide, but it can be substituted with other supported datasets).
 ```bash
-python3 woz_to_csp.py --input_folder ../RiSAWOZ/RiSAWOZ-data/task2-data-DST/ --output_folder dataset/risawoz/ --experiment risawoz --ontology_folder ../RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/
+python3 woz_to_csp.py --input_folder ./RiSAWOZ/RiSAWOZ-data/task2-data-DST/ --output_folder dataset/risawoz/ --experiment risawoz --ontology_folder ./RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/
 ```
 
 Make sure you run the following commands within makefiles directory.
@@ -59,8 +64,8 @@ make -B all_names="train eval" aug_lang=zh tgt_lang=en experiment=risawoz proces
 
 3. Translate the ontology:
 ```bash
-mkdir -p ../RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/zh/
-cp ../RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/ontology.json ../RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/zh/
+mkdir -p ./RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/zh/
+cp ./RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/ontology.json ./RiSAWOZ/RiSAWOZ-data/RiSAWOZ-Database-and-Ontology/Ontology/zh/
 make -B all_names="train eval" src_lang=zh tgt_lang=en experiment=risawoz translate_ontology
 ```
 
